@@ -1,0 +1,45 @@
+generated: '2026-08-05'
+method: generated
+source: >-
+  openapi/zetagen-therapeutics-content-openapi.yml + conventions/zetagen-therapeutics-conventions.yml
+  + errors/zetagen-therapeutics-problem-types.yml
+note: >-
+  Packaged Agent Skills for the only public API surface Zetagen Therapeutics exposes. Zetagen
+  publishes no AGENTS.md and no skill files of its own — these are API Evangelist generations.
+  Every step is grounded in an operationId that exists verbatim in the derived OpenAPI and was
+  verified to return 200 anonymously on 2026-08-05.
+skills:
+- file: zetagen-therapeutics-track-disclosures.md
+  name: Track Zetagen's public disclosure record
+  description: >-
+    Pull the company's press releases and peer-reviewed publications, filter by category and date,
+    and follow updates.
+  api: openapi/zetagen-therapeutics-content-openapi.yml
+  operations: [listCategories, listPosts, getPost, listTags]
+- file: zetagen-therapeutics-search-and-dereference.md
+  name: Search the site and dereference results
+  description: >-
+    Use federated search as the entry point, then resolve stubs to full objects — the correct
+    traversal pattern for this API.
+  api: openapi/zetagen-therapeutics-content-openapi.yml
+  operations: [search, getPost, getPage, listPages]
+- file: zetagen-therapeutics-harvest-media.md
+  name: Harvest media and select renditions
+  description: >-
+    Walk the 388-item media library and pick the right rendition from media_details.sizes without a
+    second request.
+  api: openapi/zetagen-therapeutics-content-openapi.yml
+  operations: [listMedia, getMediaItem, getOembed]
+exclusions:
+- operation: listUsers
+  path: /wp/v2/users
+  reason: >-
+    Returns personal data. The WordPress author collection answers anonymously on this deployment
+    (HTTP 200, X-WP-Total 4) exposing author display names, slugs and avatar URLs. Deliberately
+    excluded from every skill above and from any derived tool surface, under the API Evangelist
+    enrichment PII guardrail. The omission is recorded here so it reads as intentional, not as an
+    oversight. Documented in the OpenAPI as x-personal-data for contract completeness only.
+- surface: write operations
+  reason: >-
+    Every POST/PUT/PATCH/DELETE route requires an authenticated WordPress user and none were
+    exercised. No skill mutates this site.

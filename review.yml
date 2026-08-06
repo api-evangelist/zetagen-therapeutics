@@ -1,0 +1,89 @@
+name: Zetagen Therapeutics
+description: >-
+  Enrichment review of the public API surface of Zetagen Therapeutics, a private clinical-stage
+  biopharmaceutical company in Syracuse, New York.
+url: https://raw.githubusercontent.com/api-evangelist/zetagen-therapeutics/refs/heads/main/review.yml
+created: '2026-08-05'
+modified: '2026-08-05'
+reviews:
+- date: '2026-08-05'
+  rating: 1
+  summary: >-
+    Zetagen Therapeutics runs no developer program. There is no developer portal, no API
+    documentation, no OpenAPI, no GraphQL, no MCP server and no agent card. Full STEP 0b contract
+    discovery was run against zetagen.com — /openapi.json, /openapi.yaml, /swagger.json, /api-docs,
+    /docs, /redoc, /graphql, /api, /developers, /developer, /llms.txt and every RFC 8615
+    /.well-known/ path all returned 404, and no api./developer./docs./status./trust. subdomain
+    resolves. The one machine-readable contract the company exposes without credentials is the
+    WordPress REST content API registered at https://zetagen.com/wp-json/ — 349 routes across 17
+    namespaces, of which the content, taxonomy, media, search, discovery, oEmbed, Yoast-head and
+    WP Download Manager read operations were verified to answer 200 anonymously. That surface is
+    modelled in openapi/zetagen-therapeutics-content-openapi.yml as a derivation, clearly labelled
+    as not published by the provider. The company's public disclosure record — 26 press releases
+    and 6 publication entries running unbroken from 2018-09-05 to 2026-06-09, including FDA
+    Breakthrough Device Designation for ZetaMet (Zeta-BC-003) and an oversubscribed Series B1 — is
+    fully addressable through it, which is the real research value here. Email posture is the
+    strongest signal in the profile: DMARC is at p=reject, pct=100 with a managed reporting service.
+    TLS 1.3 and HTTP/3 are in place; HSTS, CAA and DNSSEC are not.
+  endpoints:
+  - {url: 'https://zetagen.com/', status: 200}
+  - {url: 'https://zetagen.com/wp-json/', status: 200, note: 'Route index — 349 routes, 17 namespaces.'}
+  - {url: 'https://zetagen.com/wp-json/wp/v2/posts', status: 200, note: 'X-WP-Total 32.'}
+  - {url: 'https://zetagen.com/wp-json/wp/v2/pages', status: 200, note: 'X-WP-Total 25.'}
+  - {url: 'https://zetagen.com/wp-json/wp/v2/media', status: 200, note: 'X-WP-Total 388.'}
+  - {url: 'https://zetagen.com/wp-json/wp/v2/search', status: 200, note: 'X-WP-Total 57.'}
+  - {url: 'https://zetagen.com/wp-json/oembed/1.0/embed?url=https://zetagen.com/', status: 200}
+  - {url: 'https://zetagen.com/wp-json/wp-abilities/v1/abilities', status: 401, note: 'rest_forbidden — agent capability registry is auth-gated.'}
+  - {url: 'https://zetagen.com/openapi.json', status: 404}
+  - {url: 'https://zetagen.com/openapi.yaml', status: 404}
+  - {url: 'https://zetagen.com/swagger.json', status: 404}
+  - {url: 'https://zetagen.com/api-docs', status: 404}
+  - {url: 'https://zetagen.com/graphql', status: 404}
+  - {url: 'https://zetagen.com/developers', status: 404}
+  - {url: 'https://zetagen.com/api', status: 404}
+  - {url: 'https://zetagen.com/llms.txt', status: 404}
+  - {url: 'https://zetagen.com/.well-known/security.txt', status: 404}
+  - {url: 'https://zetagen.com/.well-known/agent-card.json', status: 404}
+  - {url: 'https://zetagen.com/.well-known/agent.json', status: 404}
+  - {url: 'https://zetagen.com/.well-known/api-catalog', status: 404}
+  - {url: 'https://zetagen.com/.well-known/openid-configuration', status: 404}
+  - {url: 'https://zetagen.com/robots.txt', status: 200, note: 'Yoast block, allows all, no AI-agent directives.'}
+  - {url: 'https://zetagen.com/feed/', status: 200}
+  findings:
+  - id: anonymous-author-collection
+    severity: low
+    kind: personal-data-exposure
+    summary: >-
+      The standard WordPress author collection at /wp-json/wp/v2/users answers anonymously with
+      HTTP 200 and X-WP-Total 4, exposing author display names, slugs, descriptions and avatar URLs
+      without credentials. Email addresses are not exposed. This is WordPress core default
+      behaviour and not a misconfiguration unique to Zetagen, but it is a real exposure and is
+      recorded here rather than acted on.
+    handling: >-
+      No response data was captured. No individual is named anywhere in this repository. The
+      operation is documented in the OpenAPI as x-personal-data for contract completeness only, and
+      is explicitly excluded from all three packaged Agent Skills and from any derived tool surface
+      — the exclusion is recorded in skills/_index.yml so the omission reads as deliberate. Handled
+      under the API Evangelist enrichment PII guardrail.
+    remedy_for_provider: >-
+      If the company does not want author records enumerable, WordPress can restrict the users
+      endpoint to authenticated requests. Their iThemes Security install already offers this.
+  - id: agent-registry-gated
+    severity: informational
+    summary: >-
+      The site registers the WordPress Abilities API (wp-abilities/v1), the agent-facing capability
+      registry MCP bridges read from, but both /abilities and /categories return 401 rest_forbidden
+      anonymously. It is therefore a core-default administrative surface, not an agent endpoint
+      published for consumers. No MCPServer pointer is emitted and no tool list was derived.
+  - id: gated-member-area
+    severity: informational
+    summary: >-
+      /registration/, /registration-success/ and /reset-password/ pages exist and WP Download
+      Manager is installed with a public /wpdm/search route, indicating a gated member area over
+      downloadable material — most likely the publications. Not a developer program; not probed
+      beyond the public search route, and no account was created.
+  - id: no-event-surface
+    severity: informational
+    summary: >-
+      No webhooks, no streaming, no event catalog and no AsyncAPI. Recorded as N/A rather than as a
+      gap — this provider has no event surface to describe and is not penalised for it.

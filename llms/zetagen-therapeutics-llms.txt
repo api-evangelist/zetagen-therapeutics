@@ -1,0 +1,84 @@
+# Zetagen Therapeutics
+
+> Private, clinical-stage biopharmaceutical company founded in 2015 and based in Syracuse, New York,
+> developing locally administered small-molecule therapies for metastatic and primary cancers to
+> bone and other organs, plus a synthetic osteoinductive bone graft. Zetagen runs no developer
+> program and publishes no product API. The only machine-readable surface reachable without
+> credentials is the WordPress REST content API behind zetagen.com.
+
+Generated: 2026-08-05
+Method: generated
+Source: apis.yml + the artifacts in this repository. Zetagen publishes no llms.txt of its own —
+https://zetagen.com/llms.txt returned 404 on 2026-08-05. This file is an API Evangelist generation,
+not a provider publication.
+
+## APIs
+
+- [Zetagen Therapeutics Content API](https://zetagen.com/wp-json): The anonymously readable
+  WordPress REST API behind zetagen.com — 32 posts (26 press releases, 6 publications), 25 pages,
+  388 media items, 3 categories, cross-content search, oEmbed and Yoast SEO head metadata. No
+  credentials required for any read operation. 349 routes across 17 namespaces are registered; only
+  the ones verified to answer anonymously are catalogued.
+- [WordPress REST API Handbook](https://developer.wordpress.org/rest-api/): The upstream contract
+  this deployment implements. Zetagen publishes no reference of its own.
+
+## Specs
+
+- [OpenAPI 3.1 (derived)](openapi/zetagen-therapeutics-content-openapi.yml): Derived by API
+  Evangelist from the published route index and verified against live anonymous responses.
+- [Overlay](overlays/zetagen-therapeutics-content-overlay.yaml): API Evangelist annotations, kept
+  separate from the derived contract.
+
+## Artifacts
+
+- [Authentication](authentication/zetagen-therapeutics-authentication.yml): No security schemes; the
+  read surface is open. Application passwords are registered for the site's own operators only.
+- [Conventions](conventions/zetagen-therapeutics-conventions.yml): Page-number pagination with
+  X-WP-Total / X-WP-TotalPages and an RFC 8288 Link header, `_fields` / `_embed` field selection, no
+  idempotency, no rate-limit signalling, no request-id.
+- [Error catalog](errors/zetagen-therapeutics-problem-types.yml): The WordPress `{code, message,
+  data:{status}}` envelope. Not RFC 9457. Branch on `code`.
+- [Lifecycle](lifecycle/zetagen-therapeutics-lifecycle.yml): Version lives in the route namespace
+  (wp/v2). No deprecation policy, no SLA, no status page, no changelog.
+- [Conformance](conformance/zetagen-therapeutics-conformance.yml): TLS 1.3, HTTP/3, CORS, oEmbed 1.0
+  and RFC 8288 yes; RFC 9457, OAuth, OIDC, security.txt, api-catalog, A2A, MCP and llms.txt no.
+- [Data model](data-model/zetagen-therapeutics-data-model.yml): Post / Page / Attachment / Term /
+  User entity graph with integer ids and HAL `_links` traversal.
+- [Well-known](well-known/zetagen-therapeutics-well-known.yml): Every RFC 8615 path returned 404.
+- [Domain security](security/zetagen-therapeutics-domain-security.yml): TLS 1.3, DMARC p=reject at
+  100%; no HSTS, no CAA, no DNSSEC.
+- [Agent skills](skills/_index.yml): Packaged operating instructions grounded in real operationIds.
+
+## Docs
+
+- [Website](https://zetagen.com/)
+- [Our Company](https://zetagen.com/our-company/)
+- [The Science](https://zetagen.com/the-science/)
+- [Oncology](https://zetagen.com/oncology-sector/)
+- [Research Overview](https://zetagen.com/research-overview/)
+- [Regulatory Status](https://zetagen.com/research-overview/regulatory-status/)
+- [Clinical Trials](https://zetagen.com/research-overview/clinical-trials/)
+- [Expanded Access Policy](https://zetagen.com/research-overview/expanded-access-policy/)
+- [News](https://zetagen.com/news/)
+- [Press Releases](https://zetagen.com/news/press-releases/)
+- [Publications](https://zetagen.com/news/publications/)
+- [RSS feed](https://zetagen.com/feed/)
+- [Contact](https://zetagen.com/contact-us/)
+- [Privacy Statement (US)](https://zetagen.com/privacy-statement-us/)
+- [Cookie Policy (EU)](https://zetagen.com/cookie-policy-eu/)
+- [Disclaimer](https://zetagen.com/disclaimer/)
+
+## Notes for agents
+
+- There is no developer portal, no API key, no OAuth and no signup. Read operations are open.
+- Press releases and peer-reviewed publications are both stored as ordinary WordPress posts. The
+  only discriminator is the category term: id 2 is `press-release` (26 posts), id 7 is
+  `publications` (6 posts). There is no custom post type.
+- `per_page` is capped at 100 and returns HTTP 400 `rest_invalid_param` above it — it does not
+  clamp.
+- Prefer `GET /wp/v2/search` then dereference `_links.self`, over paging whole collections.
+- `GET /wp/v2/users` answers anonymously on this deployment and returns personal data. It is
+  documented in the OpenAPI for contract completeness and deliberately excluded from every skill in
+  this repo. Do not use it.
+- The company's own clinical and regulatory claims live in the press releases. Treat them as
+  company statements, not as independent verification.

@@ -1,0 +1,79 @@
+generated: '2026-08-05'
+method: derived
+source: >-
+  openapi/zetagen-therapeutics-content-openapi.yml + live probes of https://zetagen.com on
+  2026-08-05
+note: >-
+  Zetagen Therapeutics runs no developer program, so it publishes no API versioning policy, no
+  deprecation policy, no SLA and no status page. Nothing below is asserted on the company's behalf.
+  No `StatusPage` and no `Deprecation` pointer is emitted in apis.yml, because neither exists — the
+  operational-transparency checks those pointers feed would be false credit here.
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  docs: https://developer.wordpress.org/rest-api/
+  provider_policy: null
+  detail: >-
+    The version lives in the route namespace and is set by WordPress core and the installed plugins,
+    not by Zetagen. Namespaces observed on 2026-08-05 - ithemes-security/rpc, ithemes-security/v1,
+    oembed/1.0, akismet/v1, code-snippets/v1, wpdm, omgf/v1, oxygen-vsb-connection/v1,
+    post-duplicator/v1, MtphrPostDuplicatorSettings/v1, redirection/v1, yoast/v1, complianz/v1,
+    wp/v2, wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1. A plugin update can add,
+    change or remove routes at any time with no notice to consumers.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  detail: >-
+    No RFC 8594 Sunset header and no Deprecation header observed on any response. No deprecation
+    policy is published. Route churn is inherited from upstream WordPress and plugin releases.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+status_page:
+  url: null
+  detail: >-
+    No status page. status.zetagen.com is NXDOMAIN and no third-party status page (Statuspage,
+    Instatus, Better Stack) is linked from the site.
+support:
+  url: https://zetagen.com/contact-us/
+  email: null
+  detail: >-
+    The company publishes a general corporate contact form. No email address, phone number or
+    postal address is exposed in the served HTML, and there is no developer support channel, forum,
+    help center or issue tracker, so no `Support` pointer is emitted — the contact form is wired as
+    `Contact`, not as developer support.
+changelog:
+  url: null
+  detail: >-
+    No API changelog. The company's /news/ archive — 26 press releases and 6 publications, wired as
+    BlogRSS in apis.yml — is a corporate news feed, not a release-notes surface for this API, so no
+    `ChangeLog` pointer is emitted.
+observed_freshness:
+  api_index_fetched: '2026-08-05'
+  oldest_post: '2018-09-05'
+  most_recent_post: '2026-06-09'
+  most_recent_page_modified: '2026-01-21'
+  most_recent_media: '2026-04-28'
+  post_count: 32
+  page_count: 25
+  media_count: 388
+  route_count: 349
+  detail: >-
+    Content is actively maintained — the newest post is the June 2026 ASCO presentation of Phase 2a
+    results for ZetaMet (Zeta-BC-003), two months before this pass. The archive runs unbroken from
+    the 2018 NCI Phase I grant announcement.
+platform:
+  cms: WordPress
+  page_builder: Oxygen (oxygen-vsb-connection/v1 namespace registered)
+  seo: Yoast SEO (yoast/v1, 52 routes)
+  consent: Complianz (complianz/v1, 11 routes) with a /opt-out-preferences/ page
+  security_plugin: iThemes Security (ithemes-security/v1 66 routes + ithemes-security/rpc 16 routes)
+  downloads: WP Download Manager (wpdm namespace, sets a __wpdm_client cookie on every response)
+  fields: Advanced Custom Fields (an `acf` key is present on every post-like object)
+  hosting: LiteSpeed origin, no CDN observed
+  detail: >-
+    The site also publishes /registration/, /registration-success/ and /reset-password/ pages,
+    indicating a gated member area — most likely the WP Download Manager access layer over
+    publications. None of it is a developer program.

@@ -1,0 +1,88 @@
+generated: '2026-08-05'
+method: derived
+source: >-
+  openapi/zetagen-therapeutics-content-openapi.yml + live anonymous error responses observed on
+  https://zetagen.com/wp-json on 2026-08-05
+format: wordpress-rest
+rfc9457: false
+note: >-
+  Zetagen Therapeutics publishes no error reference. Every entry below was observed live against the
+  deployed API, not copied from upstream documentation. The envelope is the WordPress REST shape —
+  a machine-readable `code` slug, a human `message`, and a `data` object carrying the HTTP status
+  and, on validation failures, a per-parameter `params` map plus a nested `details` block with its
+  own code. It is served as application/json, not application/problem+json, and carries no `type`
+  URI, so it is not RFC 9457. `code` is nevertheless a stable machine identifier and is the field a
+  client should branch on.
+envelope:
+  content_type: application/json
+  shape: '{ code: string, message: string, data: { status: int, params?: object, details?: object } }'
+  branch_on: code
+problems:
+- status: 400
+  code: rest_invalid_param
+  title: Invalid query parameter
+  detail: >-
+    One or more query parameters failed validation. `data.params` maps each rejected parameter to a
+    human message and `data.details` carries a nested per-parameter code — rest_out_of_bounds for
+    range violations, rest_invalid_type for type mismatches.
+  remediation: Correct the named parameter. per_page must be between 1 and 100 inclusive.
+  observed: GET /wp/v2/posts?per_page=500
+  source_operation: openapi/zetagen-therapeutics-content-openapi.yml#listPosts
+- status: 404
+  code: rest_post_invalid_id
+  title: Invalid post ID
+  detail: No post, page or attachment exists with the requested id, or it is not publicly viewable.
+  remediation: Resolve the id from a collection response or from /wp/v2/search first.
+  observed: GET /wp/v2/posts/99999999
+  source_operation: openapi/zetagen-therapeutics-content-openapi.yml#getPost
+- status: 404
+  code: rest_no_route
+  title: No route matched
+  detail: >-
+    No route was found matching the URL and request method. Also returned for routes that exist in
+    the index but not for the method used, and for plugin routes whose path is registered only under
+    a different sub-path.
+  remediation: Re-read the route table at GET / and match both path and method.
+  observed: GET /wp/v2/nope and GET /complianz/v1/cookiebanner/
+  source_operation: openapi/zetagen-therapeutics-content-openapi.yml#getRouteIndex
+- status: 404
+  code: rest_term_invalid
+  title: Term does not exist
+  detail: No taxonomy term exists with the requested id.
+  remediation: Resolve the term id from GET /wp/v2/categories or GET /wp/v2/tags.
+  source_operation: openapi/zetagen-therapeutics-content-openapi.yml#getCategory
+- status: 401
+  code: rest_forbidden
+  title: Not authorised
+  detail: >-
+    The route requires an authenticated WordPress user. Returned anonymously by /wp/v2/settings,
+    every wp-abilities/v1 route, /wp-site-health/v1/*, /redirection/v1/*, /code-snippets/v1/* and
+    /akismet/v1/*. The message body is "Sorry, you are not allowed to do that."
+  remediation: >-
+    Not remediable by a third party — there is no public credential issuance for this surface. Treat
+    these routes as private.
+- status: 401
+  code: rest_cannot_view
+  title: Cannot view this resource
+  detail: Returned anonymously by /wp/v2/menus and /wp/v2/block-patterns/categories.
+- status: 401
+  code: rest_cannot_view_themes
+  title: Cannot view themes
+  detail: Returned anonymously by /wp/v2/themes.
+- status: 401
+  code: rest_cannot_view_plugins
+  title: Cannot view plugins
+  detail: Returned anonymously by /wp/v2/plugins.
+- status: 401
+  code: rest_block_type_cannot_view
+  title: Cannot view block types
+  detail: Returned anonymously by /wp/v2/block-types.
+- status: 401
+  code: rest_cannot_read
+  title: Cannot read this collection
+  detail: Returned anonymously by /wp/v2/font-collections.
+not_observed:
+  note: >-
+    No 403, 429, 500, 502 or 503 was produced during this pass. The absence of a 429 is consistent
+    with conventions/zetagen-therapeutics-conventions.yml — this deployment signals no rate limit.
+    Nothing is asserted about error classes that were not seen.

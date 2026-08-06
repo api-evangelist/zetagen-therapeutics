@@ -1,0 +1,149 @@
+generated: '2026-08-05'
+method: derived
+source: >-
+  openapi/zetagen-therapeutics-content-openapi.yml — schema $ref links, HAL _links relations and
+  id-reference fields observed on live anonymous responses on 2026-08-05
+note: >-
+  The entity-relationship graph of the Zetagen Therapeutics content API. Derived, not published —
+  Zetagen ships no object reference. Identifiers are plain integers throughout; WordPress uses no
+  prefixed id scheme, so there are no id prefixes to record. A reference of 0 is the WordPress
+  null-object convention (featured_media: 0 means no featured image, parent: 0 means a root page).
+entities:
+- name: Post
+  collection: /wp/v2/posts
+  count: 32
+  id: integer
+  detail: >-
+    This site uses a single `post` type for two editorial classes, separated only by category —
+    26 press releases (category 2, press-release) and 6 peer-reviewed publication entries
+    (category 7, publications). No custom post type is registered, so the category term is the only
+    machine-readable discriminator.
+- name: Page
+  collection: /wp/v2/pages
+  count: 25
+  id: integer
+  detail: >-
+    Hierarchical. Two content branches are rooted on pages — /research-overview/ (parenting
+    clinical-trials, expanded-access-policy, regulatory-status) and /news/ (parenting press-releases
+    and publications).
+- name: Attachment
+  collection: /wp/v2/media
+  count: 388
+  id: integer
+- name: Term
+  collections: [/wp/v2/categories, /wp/v2/tags]
+  count: 4
+  id: integer
+  detail: 3 category terms + 1 tag term.
+- name: Comment
+  collection: /wp/v2/comments
+  count: 0
+  id: integer
+  detail: Registered and readable but empty; comments are closed on published content.
+- name: User
+  collection: /wp/v2/users
+  count: 4
+  id: integer
+  detail: >-
+    Author records. Personal data — modelled as an entity because Post, Page and Attachment all
+    carry an `author` foreign key, but deliberately excluded from every packaged Agent Skill and
+    never sampled. See review.yml.
+- name: PostType
+  collection: /wp/v2/types
+  count: 11
+  id: string (type name)
+  detail: Registry object, not content. post, page, attachment, nav_menu_item, wp_block, wp_template, wp_template_part, wp_global_styles, wp_navigation, wp_font_family, wp_font_face.
+- name: Taxonomy
+  collection: /wp/v2/taxonomies
+  count: 4
+  id: string (taxonomy name)
+  detail: category, post_tag, nav_menu, wp_pattern_category.
+relationships:
+- from: Post
+  to: Term
+  kind: has_many
+  via: categories
+  detail: Array of category term ids. Resolvable at /wp/v2/categories/{id} or via _links["wp:term"].
+- from: Post
+  to: Term
+  kind: has_many
+  via: tags
+  detail: Array of post_tag term ids.
+- from: Post
+  to: Attachment
+  kind: has_one
+  via: featured_media
+  detail: Attachment id, 0 when unset. Embeddable via _embed as _embedded["wp:featuredmedia"].
+- from: Post
+  to: User
+  kind: belongs_to
+  via: author
+- from: Post
+  to: Comment
+  kind: has_many
+  via: _links.replies
+  detail: 'Link relation to /wp/v2/comments?post={id}. Always empty on this site.'
+- from: Page
+  to: Page
+  kind: belongs_to
+  via: parent
+  detail: Self-referential hierarchy. 0 at the root.
+- from: Page
+  to: Attachment
+  kind: has_one
+  via: featured_media
+- from: Page
+  to: User
+  kind: belongs_to
+  via: author
+- from: Attachment
+  to: Post
+  kind: belongs_to
+  via: post
+  detail: Id of the object the file is attached to. Null for unattached library items.
+- from: Attachment
+  to: User
+  kind: belongs_to
+  via: author
+- from: Term
+  to: Term
+  kind: belongs_to
+  via: parent
+  detail: Hierarchical for category, flat (always 0) for post_tag.
+- from: Term
+  to: Taxonomy
+  kind: belongs_to
+  via: taxonomy
+- from: PostType
+  to: Taxonomy
+  kind: has_many
+  via: taxonomies
+  detail: 'post -> [category, post_tag]; page -> []; attachment -> [].'
+embedded_structures:
+- entity: Attachment
+  field: media_details.sizes
+  kind: map
+  detail: >-
+    Generated renditions keyed by size name — medium, thumbnail, cmplz_banner_image (a Complianz
+    cookie-banner crop) and full — each with file, width, height, filesize, mime_type and
+    source_url. A client can select a rendition without a second call.
+- entity: Post / Page
+  field: yoast_head_json.schema['@graph']
+  kind: schema.org graph
+  detail: >-
+    A JSON-LD graph inlined on every post and page carrying WebPage, WebSite, Organization,
+    BreadcrumbList and Article nodes. The Organization node is the machine-readable identity record
+    for Zetagen — name, url and a 638x152 logo ImageObject. It carries no sameAs, address, email or
+    telephone, so there is no structured contact data on the public surface.
+- entity: Post / Page / Attachment
+  field: acf
+  kind: Advanced Custom Fields payload
+  detail: Registered on every post-like object but empty on everything sampled at harvest.
+traversal_notes:
+  detail: >-
+    /wp/v2/search is the entry point for cross-entity lookup — it returns lightweight stubs (id,
+    title, url, type, subtype) with a _links.self pointing at the full object, so an agent should
+    search, then dereference. Every object carries a _links.collection back to its own collection
+    and a _links.about to its /wp/v2/types entry, which makes the graph fully self-describing from
+    any single record.
+render: null

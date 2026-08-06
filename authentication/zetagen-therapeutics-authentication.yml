@@ -1,0 +1,85 @@
+generated: '2026-08-05'
+method: derived
+source: >-
+  openapi/zetagen-therapeutics-content-openapi.yml + live anonymous probes of
+  https://zetagen.com/wp-json
+summary:
+  types: []
+  api_key_in: []
+  oauth2_flows: []
+  public_read: true
+note: >-
+  The Zetagen Therapeutics content API declares no security schemes and requires no credentials for
+  any operation catalogued in this repo. The WordPress REST index at /wp-json/ reports exactly one
+  registered authentication provider — WordPress application passwords, authorised at
+  /wp-admin/authorize-application.php and presented over HTTP Basic — which is the WordPress core
+  default for authenticated write access by the site's own operators. It is not a developer
+  credential a third party can obtain: there is no self-service signup for it, no scope model and no
+  key-issuance flow. Zetagen publishes no developer authentication documentation because it runs no
+  developer program; the read surface is simply open.
+schemes: []
+registered_providers:
+- name: application-passwords
+  mechanism: HTTP Basic (WordPress application password)
+  authorization_endpoint: https://zetagen.com/wp-admin/authorize-application.php
+  source: the `authentication` object in https://zetagen.com/wp-json/
+  third_party_obtainable: false
+  note: >-
+    WordPress core default. Requires an existing WordPress user account on zetagen.com. Not modelled
+    as a securityScheme in the OpenAPI because no catalogued operation accepts or requires it — the
+    pipeline reads only and never exercised a write route.
+anonymous_access:
+  readable:
+  - GET /
+  - GET /wp/v2/posts
+  - GET /wp/v2/posts/{id}
+  - GET /wp/v2/pages
+  - GET /wp/v2/pages/{id}
+  - GET /wp/v2/media
+  - GET /wp/v2/media/{id}
+  - GET /wp/v2/categories
+  - GET /wp/v2/categories/{id}
+  - GET /wp/v2/tags
+  - GET /wp/v2/tags/{id}
+  - GET /wp/v2/comments
+  - GET /wp/v2/blocks
+  - GET /wp/v2/search
+  - GET /wp/v2/types
+  - GET /wp/v2/taxonomies
+  - GET /wp/v2/statuses
+  - GET /oembed/1.0/embed
+  - GET /yoast/v1/get_head
+  - GET /wpdm/search
+  gated:
+  - {path: /wp/v2/settings, status: 401, code: rest_forbidden}
+  - {path: /wp/v2/menus, status: 401, code: rest_cannot_view}
+  - {path: /wp/v2/themes, status: 401, code: rest_cannot_view_themes}
+  - {path: /wp/v2/plugins, status: 401, code: rest_cannot_view_plugins}
+  - {path: /wp/v2/block-types, status: 401, code: rest_block_type_cannot_view}
+  - {path: /wp/v2/block-patterns/categories, status: 401, code: rest_cannot_view}
+  - {path: /wp/v2/font-collections, status: 401, code: rest_cannot_read}
+  - {path: /wp-abilities/v1/abilities, status: 401, code: rest_forbidden}
+  - {path: /wp-abilities/v1/categories, status: 401, code: rest_forbidden}
+  - {path: /wp-site-health/v1/tests/background-updates, status: 401, code: rest_forbidden}
+  - {path: /redirection/v1/redirect, status: 401, code: rest_forbidden}
+  - {path: /code-snippets/v1/snippets, status: 401, code: rest_forbidden}
+  - {path: /akismet/v1/key, status: 401, code: rest_forbidden}
+  personal_data:
+  - path: /wp/v2/users
+    status: 200
+    total: 4
+    note: >-
+      The standard WordPress author collection answers anonymously on this deployment, exposing
+      author display names, slugs and avatar URLs (not email addresses). Documented in the OpenAPI
+      as x-personal-data and deliberately excluded from every packaged Agent Skill. No response data
+      was captured and no individual is named anywhere in this repo. See review.yml.
+  write_operations: >-
+    Every POST/PUT/PATCH/DELETE route in the 349-route index requires an authenticated WordPress
+    user. None were exercised — the pipeline reads only.
+x-evidence:
+  probed: '2026-08-05'
+  index: https://zetagen.com/wp-json/
+  index_authentication_field:
+    application-passwords:
+      endpoints:
+        authorization: https://zetagen.com/wp-admin/authorize-application.php

@@ -1,0 +1,52 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Zetagen Therapeutics Content API
+  version: 1.0.0
+extends: openapi/zetagen-therapeutics-content-openapi.yml
+x-provenance:
+  generated: '2026-08-05'
+  method: generated
+  source: >-
+    API Evangelist enrichment pipeline. Captures the annotations this pipeline adds on top of the
+    contract derived from https://zetagen.com/wp-json/, so the derived spec stays separable from
+    the enrichment.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apievangelist.com/
+    x-apievangelist-provider: zetagen-therapeutics
+    x-apievangelist-surface-class: incidental-cms
+    x-apievangelist-note: >-
+      Not a developer product. This is the WordPress REST content API behind a clinical-stage
+      biopharmaceutical company's corporate site, catalogued because it is the only machine-readable
+      contract the company exposes without credentials.
+- target: $.info
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/zetagen-therapeutics-authentication.yml
+      conventions: conventions/zetagen-therapeutics-conventions.yml
+      errors: errors/zetagen-therapeutics-problem-types.yml
+      lifecycle: lifecycle/zetagen-therapeutics-lifecycle.yml
+      conformance: conformance/zetagen-therapeutics-conformance.yml
+      data_model: data-model/zetagen-therapeutics-data-model.yml
+      well_known: well-known/zetagen-therapeutics-well-known.yml
+      domain_security: security/zetagen-therapeutics-domain-security.yml
+      skills: skills/_index.yml
+- target: $.paths['/wp/v2/posts'].get
+  update:
+    x-apievangelist-editorial-note: >-
+      The single most useful operation on this surface. The company's entire public disclosure
+      record — funding rounds, patent grants, regulatory designations, trial milestones and
+      conference presentations from 2018-09-05 to 2026-06-09 — is addressable here. Filter by
+      category 2 for press releases and category 7 for peer-reviewed publications.
+- target: $.paths['/wp/v2/users'].get
+  update:
+    x-apievangelist-exclusion: >-
+      Excluded from all packaged Agent Skills and from any derived tool surface under the API
+      Evangelist enrichment PII guardrail. Documented for contract completeness only; no response
+      data was captured and no individual is named anywhere in this repo.
+- target: $.paths['/wp/v2/search'].get
+  update:
+    x-apievangelist-editorial-note: >-
+      The correct entry point for an agent. Returns stubs with a _links.self to the full object, so
+      the pattern is search then dereference rather than paging the whole archive.

@@ -1,0 +1,133 @@
+generated: '2026-08-05'
+method: derived
+source: >-
+  openapi/zetagen-therapeutics-content-openapi.yml + live probes of https://zetagen.com on
+  2026-08-05
+note: >-
+  Cross-cutting standards conformance for the only public API surface Zetagen Therapeutics exposes.
+  Zetagen makes no published compliance claims of any kind — no trust center, no SOC 2 / ISO 27001 /
+  HIPAA statement, no certifications page — so no `Compliance` pointer is emitted in apis.yml. Every
+  entry below is derived from the deployed contract, not from a provider assertion.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: >-
+    openapi/zetagen-therapeutics-content-openapi.yml is an API Evangelist derivation, not a provider
+    publication. Zetagen itself publishes no OpenAPI — /openapi.json, /openapi.yaml, /swagger.json
+    and /api-docs all returned 404.
+  published_by_provider: false
+- id: wordpress-rest-api-v2
+  conforms: true
+  evidence: >-
+    The /wp-json/ index declares the wp/v2 namespace and every modelled route matches the upstream
+    WordPress REST contract documented at https://developer.wordpress.org/rest-api/.
+- id: oembed-1.0
+  conforms: true
+  evidence: /oembed/1.0/embed returned 200 with a valid oEmbed 1.0 response for a zetagen.com URL.
+- id: rfc8288-web-linking
+  conforms: true
+  evidence: >-
+    Collection responses carry a Link header with rel="next"/rel="prev"; objects carry HAL-style
+    _links relations to self, collection, about, author, replies, version-history,
+    predecessor-version, wp:term, wp:featuredmedia and wp:attachment.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use the WordPress envelope {code, message, data:{status}} served as application/json. No
+    type URI, no application/problem+json. See errors/zetagen-therapeutics-problem-types.yml.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No oauth2 security scheme. The /wp-json/ index registers only WordPress application passwords
+    (HTTP Basic), which is not obtainable by a third party.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returned 404.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server returned 404.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returned 404.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog returned 404.
+- id: a2a-agent-card
+  conforms: false
+  evidence: >-
+    Both /.well-known/agent-card.json (A2A 1.0.0 canonical) and /.well-known/agent.json (pre-0.3
+    legacy) returned 404. No a2a/ artifact is written.
+- id: llms-txt
+  conforms: false
+  evidence: >-
+    /llms.txt returned 404. The llms/zetagen-therapeutics-llms.txt in this repo is an API Evangelist
+    generation, not a provider publication.
+- id: model-context-protocol
+  conforms: false
+  gated: true
+  evidence: >-
+    The site registers the WordPress Abilities API at /wp-json/wp-abilities/v1/ — the agent-facing
+    capability registry that MCP bridges read — but both /wp-abilities/v1/abilities and
+    /wp-abilities/v1/categories returned 401 rest_forbidden anonymously. It is therefore a
+    core-default administrative surface bound to an authenticated WordPress user, not an agent
+    endpoint Zetagen publishes for consumers. No MCPServer pointer is emitted and no tool list is
+    derived — the live schema is auth-gated and inventing one would fabricate an agent posture this
+    provider does not have.
+- id: graphql
+  conforms: false
+  evidence: /graphql returned 404. No WPGraphQL plugin is registered in the route index.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No event, streaming or webhook surface of any kind. No AsyncAPI, no webhook catalog, no
+    registered webhook routes in the index. Not penalised — this provider has no event surface to
+    describe.
+- id: rate-limit-headers
+  conforms: false
+  evidence: No RateLimit-* or X-RateLimit-* headers on any /wp-json response.
+- id: idempotency
+  conforms: false
+  evidence: No idempotency key, no request deduplication contract, no anonymous write surface.
+- id: cors
+  conforms: true
+  evidence: >-
+    Access-Control-Allow-Headers advertises Authorization, X-WP-Nonce, Content-Disposition,
+    Content-MD5, Content-Type and X-HTTP-Method-Override; Access-Control-Expose-Headers advertises
+    X-WP-Total, X-WP-TotalPages and Link; Vary: Origin is set.
+- id: tls-1.3
+  conforms: true
+  evidence: TLSv1.3 negotiated on zetagen.com; see security/zetagen-therapeutics-domain-security.yml.
+- id: http-3
+  conforms: true
+  evidence: 'alt-svc advertises h3, h3-29 and draft QUIC versions on every response.'
+- id: hsts
+  conforms: false
+  evidence: No Strict-Transport-Security header on the site root or on /wp-json responses.
+- id: dnssec
+  conforms: false
+  evidence: No DS records on zetagen.com.
+- id: caa
+  conforms: false
+  evidence: No CAA records on zetagen.com.
+- id: spf
+  conforms: true
+  evidence: 'v=spf1 redirect=_syoylfgnf.sdmarc.net — delegated to a managed DMARC service.'
+- id: dmarc
+  conforms: true
+  evidence: >-
+    v=DMARC1; p=reject; pct=100 with a working rua address at sdmarc.net. Full enforcement — the
+    strongest single conformance signal in this profile.
+regulatory_context:
+  note: >-
+    Zetagen Therapeutics is a private, clinical-stage biopharmaceutical company. It is subject to
+    FDA and Health Canada regulation of its investigational products — ZetaMet (Zeta-BC-003) holds
+    FDA Breakthrough Device Designation granted in December 2021 and Health Canada authorisation for
+    a Phase 2a study granted in January 2022, and ZetaFuse was cleared by an Australian Human
+    Research Ethics Committee for a pilot study in November 2023 — but that is medical-product
+    regulation, not API or data-processing regulation, and it confers nothing on the public content
+    API catalogued here. The site publishes regional privacy statements and cookie policies for the
+    US, EU and Canada (Complianz-managed, with a /opt-out-preferences/ consent surface), an
+    Expanded Access Policy required of clinical-stage sponsors, and a Disclaimer; none of them
+    describe an API, a data-processing agreement or a compliance certification. No HIPAA, GDPR
+    certification, SOC 2 or ISO 27001 claim is published anywhere on the public surface, and none is
+    asserted on the company's behalf.

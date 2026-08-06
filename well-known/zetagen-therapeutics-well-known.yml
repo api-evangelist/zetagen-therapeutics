@@ -1,0 +1,62 @@
+generated: '2026-08-05'
+method: probed
+source: live GET probes of the /.well-known/ discovery surface on zetagen.com
+host: https://zetagen.com
+note: >-
+  Zetagen Therapeutics publishes no /.well-known/ discovery documents. Every RFC 8615 path probed on
+  2026-08-05 returned 404 from the WordPress 404 handler — genuine misses, not an SPA catch-all
+  answering 200 for every path, which is the dominant false positive on this probe. Absence is
+  recorded here as valid data. No agent card was found at either the A2A 1.0.0 canonical path or the
+  pre-0.3 legacy path, so no a2a/ artifact is written for this provider.
+documents:
+- path: /.well-known/security.txt          # RFC 9116
+  status: 404
+- path: /.well-known/openid-configuration  # OIDC discovery
+  status: 404
+- path: /.well-known/oauth-authorization-server  # RFC 8414
+  status: 404
+- path: /.well-known/api-catalog           # RFC 9727
+  status: 404
+- path: /.well-known/ai-plugin.json
+  status: 404
+- path: /.well-known/agent-card.json       # A2A 1.0.0 canonical
+  status: 404
+- path: /.well-known/agent.json            # A2A pre-0.3 legacy
+  status: 404
+- path: /llms.txt
+  status: 404
+related:
+- path: /robots.txt
+  status: 200
+  note: >-
+    Yoast-generated block. Allows everything (User-agent * / Disallow with an empty value), sets no
+    crawl delay, and references the sitemap index. No AI-agent or bot-specific directives — no
+    GPTBot, ClaudeBot, CCBot or Google-Extended rules.
+- path: /sitemap_index.xml
+  status: 200
+  note: Yoast XML sitemap index.
+- path: /feed/
+  status: 200
+  note: WordPress RSS 2.0 feed for the news archive. Wired in apis.yml as type BlogRSS.
+- path: /wp-json/
+  status: 200
+  note: >-
+    The WordPress REST route index — the only machine-readable contract this provider exposes.
+    349 routes across 17 namespaces. Modelled in
+    openapi/zetagen-therapeutics-content-openapi.yml.
+- path: /openapi.json
+  status: 404
+- path: /openapi.yaml
+  status: 404
+- path: /swagger.json
+  status: 404
+- path: /api-docs
+  status: 404
+- path: /graphql
+  status: 404
+- path: /docs
+  status: 404
+- path: /developers
+  status: 404
+- path: /api
+  status: 404
