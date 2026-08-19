@@ -1,0 +1,181 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zetagen Therapeutics Content Taxonomy API",
+    "version": "wp/v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "taxonomy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/categories",
+            "params": [
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Current page of the collection, 1-based."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Items per page. Values above 100 return 400 rest_invalid_param, not a clamp."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "orderby",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "hide_empty",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "post",
+                "value": "",
+                "type": "query",
+                "description": "Limit to terms assigned to a specific post."
+              },
+              {
+                "name": "slug",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "_fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated allow-list of top-level response fields."
+              }
+            ]
+          },
+          "docs": "Three terms are registered on this site — press-release (26 posts), publications (6 posts) and uncategorized (0 posts)."
+        },
+        {
+          "info": {
+            "name": "Get a category term by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/categories/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              }
+            ]
+          },
+          "docs": "Get a category term by id"
+        },
+        {
+          "info": {
+            "name": "List post tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/tags",
+            "params": [
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Current page of the collection, 1-based."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Items per page. Values above 100 return 400 rest_invalid_param, not a clamp."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "slug",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "_fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated allow-list of top-level response fields."
+              }
+            ]
+          },
+          "docs": "List post tags"
+        },
+        {
+          "info": {
+            "name": "Get a tag term by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/tags/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              }
+            ]
+          },
+          "docs": "Get a tag term by id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

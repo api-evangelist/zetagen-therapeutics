@@ -1,0 +1,94 @@
+openapi: 3.2.0
+info:
+  title: Zetagen Therapeutics Content Seo API
+  version: wp/v2
+  summary: The anonymously readable WordPress REST content API behind zetagen.com.
+  description: Zetagen Therapeutics runs no developer program and publishes no OpenAPI. This document is an API Evangelist derivation of the WordPress REST route index the site publishes at https://zetagen.com/wp-json/ (349 routes across 17 namespaces), narrowed to the operations that were verified to return data anonymously on 2026-08-05. Every write route and the entire plugin-administration surface is excluded — those require an authenticated WordPress user and were never exercised. The contract semantics (pagination, field selection, error envelope) are upstream WordPress REST behaviour, documented at https://developer.wordpress.org/rest-api/.
+  contact:
+    name: Zetagen Therapeutics
+    url: https://zetagen.com/contact-us/
+  x-provenance:
+    method: derived
+    generated: '2026-08-05'
+    source: https://zetagen.com/wp-json/
+    verified_against: live anonymous GET responses on 2026-08-05
+    publisher: API Evangelist
+    note: Not published by Zetagen Therapeutics. Derived and independently verified; no operation here was invented and every one returned 200 anonymously at harvest.
+servers:
+- url: https://zetagen.com/wp-json
+  description: Production
+tags:
+- name: seo
+  description: Yoast SEO head metadata.
+paths:
+  /yoast/v1/get_head:
+    get:
+      operationId: getYoastHead
+      tags:
+      - seo
+      summary: Get rendered SEO head metadata for a URL
+      description: Yoast SEO exposes the rendered <head> block and its structured schema.org graph for any public URL on the site. Anonymously readable at harvest. The same payload is inlined on every post and page as yoast_head / yoast_head_json.
+      parameters:
+      - name: url
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uri
+      responses:
+        '200':
+          description: Rendered head metadata plus a schema.org graph.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  html:
+                    type: string
+                  json:
+                    type: object
+        '404':
+          $ref: '#/components/responses/NoRoute'
+components:
+  responses:
+    NoRoute:
+      description: No route matched the URL and method.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            noRoute:
+              value:
+                code: rest_no_route
+                message: No route was found matching the URL and request method.
+                data:
+                  status: 404
+  schemas:
+    Error:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 — no type URI and no application/problem+json media type.
+      required:
+      - code
+      - message
+      - data
+      properties:
+        code:
+          type: string
+          description: Machine-readable error slug.
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+            params:
+              type: object
+              additionalProperties:
+                type: string
+            details:
+              type: object
+externalDocs:
+  description: WordPress REST API Handbook — the upstream contract this deployment implements
+  url: https://developer.wordpress.org/rest-api/

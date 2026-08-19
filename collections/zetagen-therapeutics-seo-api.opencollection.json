@@ -1,0 +1,36 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zetagen Therapeutics Content Seo API",
+    "version": "wp/v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "seo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get rendered SEO head metadata for a URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/yoast/v1/get_head",
+            "params": [
+              {
+                "name": "url",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Yoast SEO exposes the rendered <head> block and its structured schema.org graph for any public URL on the site. Anonymously readable at harvest. The same payload is inlined on every post and page as yoast_head / yoast_head_json."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

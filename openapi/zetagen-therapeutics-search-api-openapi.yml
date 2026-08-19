@@ -1,0 +1,132 @@
+openapi: 3.2.0
+info:
+  title: Zetagen Therapeutics Content Search API
+  version: wp/v2
+  summary: The anonymously readable WordPress REST content API behind zetagen.com.
+  description: Zetagen Therapeutics runs no developer program and publishes no OpenAPI. This document is an API Evangelist derivation of the WordPress REST route index the site publishes at https://zetagen.com/wp-json/ (349 routes across 17 namespaces), narrowed to the operations that were verified to return data anonymously on 2026-08-05. Every write route and the entire plugin-administration surface is excluded — those require an authenticated WordPress user and were never exercised. The contract semantics (pagination, field selection, error envelope) are upstream WordPress REST behaviour, documented at https://developer.wordpress.org/rest-api/.
+  contact:
+    name: Zetagen Therapeutics
+    url: https://zetagen.com/contact-us/
+  x-provenance:
+    method: derived
+    generated: '2026-08-05'
+    source: https://zetagen.com/wp-json/
+    verified_against: live anonymous GET responses on 2026-08-05
+    publisher: API Evangelist
+    note: Not published by Zetagen Therapeutics. Derived and independently verified; no operation here was invented and every one returned 200 anonymously at harvest.
+servers:
+- url: https://zetagen.com/wp-json
+  description: Production
+tags:
+- name: search
+  description: Cross-content search.
+paths:
+  /wp/v2/search:
+    get:
+      operationId: search
+      tags:
+      - search
+      summary: Cross-content search
+      description: Federated search across searchable post types. Returned 57 total results for an empty query at harvest. Results are lightweight stubs — id, title, url, type, subtype — with _links to the full object.
+      parameters:
+      - $ref: '#/components/parameters/Context'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      - $ref: '#/components/parameters/Search'
+      - name: type
+        in: query
+        schema:
+          type: string
+          enum:
+          - post
+          - term
+          - post-format
+          default: post
+      - name: subtype
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: A page of search results.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+            X-WP-TotalPages:
+              $ref: '#/components/headers/XWPTotalPages'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchResult'
+components:
+  parameters:
+    PerPage:
+      name: per_page
+      in: query
+      description: Items per page. Values above 100 return 400 rest_invalid_param, not a clamp.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    Page:
+      name: page
+      in: query
+      description: Current page of the collection, 1-based.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    Search:
+      name: search
+      in: query
+      schema:
+        type: string
+    Context:
+      name: context
+      in: query
+      description: Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401.
+      schema:
+        type: string
+        enum:
+        - view
+        - embed
+        - edit
+        default: view
+  schemas:
+    SearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        url:
+          type: string
+          format: uri
+        type:
+          type: string
+        subtype:
+          type: string
+        _links:
+          $ref: '#/components/schemas/Links'
+    Links:
+      type: object
+      description: HAL-style link relations — self, collection, about, author, replies, wp:term, wp:featuredmedia, wp:attachment, curies.
+      additionalProperties: true
+  headers:
+    XWPTotalPages:
+      description: Total number of pages available.
+      schema:
+        type: integer
+    XWPTotal:
+      description: Total number of matching items.
+      schema:
+        type: integer
+externalDocs:
+  description: WordPress REST API Handbook — the upstream contract this deployment implements
+  url: https://developer.wordpress.org/rest-api/

@@ -1,0 +1,595 @@
+openapi: 3.2.0
+info:
+  title: Zetagen Therapeutics Content API
+  version: wp/v2
+  summary: The anonymously readable WordPress REST content API behind zetagen.com.
+  description: Zetagen Therapeutics runs no developer program and publishes no OpenAPI. This document is an API Evangelist derivation of the WordPress REST route index the site publishes at https://zetagen.com/wp-json/ (349 routes across 17 namespaces), narrowed to the operations that were verified to return data anonymously on 2026-08-05. Every write route and the entire plugin-administration surface is excluded — those require an authenticated WordPress user and were never exercised. The contract semantics (pagination, field selection, error envelope) are upstream WordPress REST behaviour, documented at https://developer.wordpress.org/rest-api/.
+  contact:
+    name: Zetagen Therapeutics
+    url: https://zetagen.com/contact-us/
+  x-provenance:
+    method: derived
+    generated: '2026-08-05'
+    source: https://zetagen.com/wp-json/
+    verified_against: live anonymous GET responses on 2026-08-05
+    publisher: API Evangelist
+    note: Not published by Zetagen Therapeutics. Derived and independently verified; no operation here was invented and every one returned 200 anonymously at harvest.
+servers:
+- url: https://zetagen.com/wp-json
+  description: Production
+tags:
+- name: content
+  description: Posts, pages and the block library.
+paths:
+  /wp/v2/posts:
+    get:
+      operationId: listPosts
+      tags:
+      - content
+      summary: List posts
+      description: The 32 published posts — 26 in the press-release category and 6 in publications — spanning 2018-09-05 to 2026-06-09. Collection responses carry X-WP-Total and X-WP-TotalPages and an RFC 8288 Link header.
+      parameters:
+      - $ref: '#/components/parameters/Context'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      - $ref: '#/components/parameters/Search'
+      - $ref: '#/components/parameters/After'
+      - $ref: '#/components/parameters/Before'
+      - $ref: '#/components/parameters/ModifiedAfter'
+      - $ref: '#/components/parameters/ModifiedBefore'
+      - $ref: '#/components/parameters/Include'
+      - $ref: '#/components/parameters/Exclude'
+      - $ref: '#/components/parameters/Offset'
+      - $ref: '#/components/parameters/Order'
+      - name: orderby
+        in: query
+        schema:
+          type: string
+          enum:
+          - author
+          - date
+          - id
+          - include
+          - modified
+          - parent
+          - relevance
+          - slug
+          - include_slugs
+          - title
+          default: date
+      - $ref: '#/components/parameters/Slug'
+      - name: categories
+        in: query
+        description: Limit to posts assigned to these category term ids.
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: categories_exclude
+        in: query
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: tags
+        in: query
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: tags_exclude
+        in: query
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: sticky
+        in: query
+        schema:
+          type: boolean
+      - $ref: '#/components/parameters/Fields'
+      - $ref: '#/components/parameters/Embed'
+      responses:
+        '200':
+          description: A page of posts.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+            X-WP-TotalPages:
+              $ref: '#/components/headers/XWPTotalPages'
+            Link:
+              $ref: '#/components/headers/LinkPagination'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '400':
+          $ref: '#/components/responses/InvalidParam'
+  /wp/v2/posts/{id}:
+    get:
+      operationId: getPost
+      tags:
+      - content
+      summary: Get a post by id
+      parameters:
+      - $ref: '#/components/parameters/PathId'
+      - $ref: '#/components/parameters/Context'
+      - $ref: '#/components/parameters/Fields'
+      - $ref: '#/components/parameters/Embed'
+      responses:
+        '200':
+          description: A post.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '404':
+          $ref: '#/components/responses/PostNotFound'
+  /wp/v2/pages:
+    get:
+      operationId: listPages
+      tags:
+      - content
+      summary: List pages
+      description: The 25 published corporate pages, including the hierarchical Research Overview and News branches. Pages carry a parent id and a menu_order.
+      parameters:
+      - $ref: '#/components/parameters/Context'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      - $ref: '#/components/parameters/Search'
+      - $ref: '#/components/parameters/Include'
+      - $ref: '#/components/parameters/Exclude'
+      - $ref: '#/components/parameters/Offset'
+      - $ref: '#/components/parameters/Order'
+      - name: orderby
+        in: query
+        schema:
+          type: string
+          enum:
+          - author
+          - date
+          - id
+          - include
+          - modified
+          - parent
+          - relevance
+          - slug
+          - include_slugs
+          - title
+          - menu_order
+          default: date
+      - name: parent
+        in: query
+        schema:
+          type: array
+          items:
+            type: integer
+      - $ref: '#/components/parameters/Slug'
+      - $ref: '#/components/parameters/Fields'
+      - $ref: '#/components/parameters/Embed'
+      responses:
+        '200':
+          description: A page of pages.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+            X-WP-TotalPages:
+              $ref: '#/components/headers/XWPTotalPages'
+            Link:
+              $ref: '#/components/headers/LinkPagination'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Page'
+        '400':
+          $ref: '#/components/responses/InvalidParam'
+  /wp/v2/pages/{id}:
+    get:
+      operationId: getPage
+      tags:
+      - content
+      summary: Get a page by id
+      parameters:
+      - $ref: '#/components/parameters/PathId'
+      - $ref: '#/components/parameters/Context'
+      - $ref: '#/components/parameters/Fields'
+      - $ref: '#/components/parameters/Embed'
+      responses:
+        '200':
+          description: A page.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+        '404':
+          $ref: '#/components/responses/PostNotFound'
+  /wp/v2/comments:
+    get:
+      operationId: listComments
+      tags:
+      - content
+      summary: List comments
+      description: Registered and anonymously readable, but empty — X-WP-Total was 0 at harvest. Comments are closed on the published content.
+      parameters:
+      - $ref: '#/components/parameters/Context'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      - name: post
+        in: query
+        schema:
+          type: array
+          items:
+            type: integer
+      - $ref: '#/components/parameters/Fields'
+      responses:
+        '200':
+          description: A page of comments.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /wp/v2/blocks:
+    get:
+      operationId: listBlocks
+      tags:
+      - content
+      summary: List reusable blocks (patterns)
+      description: Registered and anonymously readable; returned an empty array at harvest.
+      parameters:
+      - $ref: '#/components/parameters/Context'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: A page of reusable blocks.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+components:
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Current page of the collection, 1-based.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    After:
+      name: after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    PathId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Fields:
+      name: _fields
+      in: query
+      description: Comma-separated allow-list of top-level response fields.
+      schema:
+        type: string
+    Context:
+      name: context
+      in: query
+      description: Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401.
+      schema:
+        type: string
+        enum:
+        - view
+        - embed
+        - edit
+        default: view
+    Order:
+      name: order
+      in: query
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PerPage:
+      name: per_page
+      in: query
+      description: Items per page. Values above 100 return 400 rest_invalid_param, not a clamp.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+    ModifiedAfter:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+    Include:
+      name: include
+      in: query
+      schema:
+        type: array
+        items:
+          type: integer
+    Slug:
+      name: slug
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+    Search:
+      name: search
+      in: query
+      schema:
+        type: string
+    Before:
+      name: before
+      in: query
+      schema:
+        type: string
+        format: date-time
+    Embed:
+      name: _embed
+      in: query
+      description: Inline embeddable resources (author, featured media, terms) under _embedded.
+      schema:
+        type: boolean
+    Exclude:
+      name: exclude
+      in: query
+      schema:
+        type: array
+        items:
+          type: integer
+    ModifiedBefore:
+      name: modified_before
+      in: query
+      schema:
+        type: string
+        format: date-time
+  responses:
+    InvalidParam:
+      description: A query parameter failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            perPageOutOfBounds:
+              summary: per_page above the 100 maximum
+              value:
+                code: rest_invalid_param
+                message: 'Invalid parameter(s): per_page'
+                data:
+                  status: 400
+                  params:
+                    per_page: per_page must be between 1 (inclusive) and 100 (inclusive)
+    PostNotFound:
+      description: No object with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            invalidPostId:
+              value:
+                code: rest_post_invalid_id
+                message: Invalid post ID.
+                data:
+                  status: 404
+  schemas:
+    Page:
+      type: object
+      description: A published corporate page. Pages are hierarchical on this site.
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        guid:
+          $ref: '#/components/schemas/RenderedText'
+        slug:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+          const: page
+        link:
+          type: string
+          format: uri
+        title:
+          $ref: '#/components/schemas/RenderedText'
+        content:
+          $ref: '#/components/schemas/RenderedText'
+        excerpt:
+          $ref: '#/components/schemas/RenderedText'
+        author:
+          type: integer
+        featured_media:
+          type: integer
+        parent:
+          type: integer
+          description: Parent page id
+          0 at the root.: null
+        menu_order:
+          type: integer
+        template:
+          type: string
+        meta:
+          type: object
+        acf:
+          oneOf:
+          - type: object
+          - type: array
+        class_list:
+          type: array
+          items:
+            type: string
+        yoast_head:
+          type: string
+        yoast_head_json:
+          type: object
+        _links:
+          $ref: '#/components/schemas/Links'
+    RenderedText:
+      type: object
+      properties:
+        rendered:
+          type: string
+        protected:
+          type: boolean
+    Post:
+      type: object
+      description: A published post. This site uses posts for both press releases and publications, separated by category.
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+          description: Site-local publication time (America/Toronto
+          UTC-4).: null
+        date_gmt:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        modified_gmt:
+          type: string
+          format: date-time
+        guid:
+          $ref: '#/components/schemas/RenderedText'
+        slug:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+          const: post
+        link:
+          type: string
+          format: uri
+        title:
+          $ref: '#/components/schemas/RenderedText'
+        content:
+          $ref: '#/components/schemas/RenderedText'
+        excerpt:
+          $ref: '#/components/schemas/RenderedText'
+        author:
+          type: integer
+          description: Author id. See the people tag note on /wp/v2/users.
+        featured_media:
+          type: integer
+          description: Attachment id
+          0 when unset.: null
+        comment_status:
+          type: string
+        ping_status:
+          type: string
+        sticky:
+          type: boolean
+        template:
+          type: string
+        format:
+          type: string
+        categories:
+          type: array
+          items:
+            type: integer
+        tags:
+          type: array
+          items:
+            type: integer
+        meta:
+          type: object
+          description: Registered meta only. Observed key on this deployment - _acf_changed.
+        acf:
+          description: Advanced Custom Fields payload. Registered and exposed on every post-like object; empty on the objects sampled at harvest.
+          oneOf:
+          - type: object
+          - type: array
+        class_list:
+          type: array
+          items:
+            type: string
+        yoast_head:
+          type: string
+          description: Rendered SEO head markup inlined by Yoast SEO.
+        yoast_head_json:
+          type: object
+          description: Structured SEO metadata including a schema.org @graph.
+        _links:
+          $ref: '#/components/schemas/Links'
+    Links:
+      type: object
+      description: HAL-style link relations — self, collection, about, author, replies, wp:term, wp:featuredmedia, wp:attachment, curies.
+      additionalProperties: true
+    Error:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 — no type URI and no application/problem+json media type.
+      required:
+      - code
+      - message
+      - data
+      properties:
+        code:
+          type: string
+          description: Machine-readable error slug.
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+            params:
+              type: object
+              additionalProperties:
+                type: string
+            details:
+              type: object
+  headers:
+    XWPTotalPages:
+      description: Total number of pages available.
+      schema:
+        type: integer
+    XWPTotal:
+      description: Total number of matching items.
+      schema:
+        type: integer
+    LinkPagination:
+      description: RFC 8288 Link header carrying rel="next" and rel="prev".
+      schema:
+        type: string
+externalDocs:
+  description: WordPress REST API Handbook — the upstream contract this deployment implements
+  url: https://developer.wordpress.org/rest-api/

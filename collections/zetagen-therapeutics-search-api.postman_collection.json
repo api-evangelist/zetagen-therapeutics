@@ -1,0 +1,186 @@
+{
+  "item": [
+    {
+      "id": "3695ed74-4918-4080-a384-d3afbeeb2b9c",
+      "name": "search",
+      "description": {
+        "content": "Cross-content search.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b458e715-bad6-46e7-8244-223d84584a77",
+          "name": "Cross-content search",
+          "request": {
+            "name": "Cross-content search",
+            "description": {
+              "content": "Federated search across searchable post types. Returned 57 total results for an empty query at harvest. Results are lightweight stubs — id, title, url, type, subtype — with _links to the full object.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "context",
+                  "value": "view",
+                  "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Current page of the collection, 1-based."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "10",
+                  "description": "Items per page. Values above 100 return 400 rest_invalid_param, not a clamp."
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "post"
+                },
+                {
+                  "disabled": false,
+                  "key": "subtype",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "subtype",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "09dee5b5-c1fd-4ab6-9340-b872412eaf2c",
+              "name": "A page of search results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "context",
+                      "value": "view"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "post"
+                    },
+                    {
+                      "key": "subtype",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subtype",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Total number of matching items.",
+                  "key": "X-WP-Total",
+                  "value": "4950"
+                },
+                {
+                  "disabled": false,
+                  "description": "Total number of pages available.",
+                  "key": "X-WP-TotalPages",
+                  "value": "4950"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 1429,\n    \"title\": \"string\",\n    \"url\": \"http://bgjCypYzNjJsF.ttg1O,cYzdM2n3HnaRljM,KLfbUDcjHIISosrB52WwmLMPdIVSVoX6QLHvRkjaxty3zAkD\",\n    \"type\": \"string\",\n    \"subtype\": \"string\",\n    \"_links\": {\n      \"key_0\": 3456,\n      \"key_1\": 205.72425987887556\n    }\n  },\n  {\n    \"id\": 2102,\n    \"title\": \"string\",\n    \"url\": \"https://akAnLTCUUhjf.ixLQlfM2coKmM7A0SiO,iyhaplUiWg0ELauWaxfgx,LSt9PW7O\",\n    \"type\": \"string\",\n    \"subtype\": \"string\",\n    \"_links\": {\n      \"key_0\": false,\n      \"key_1\": 7294,\n      \"key_2\": 4771\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://zetagen.com/wp-json",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "12477f64-ff6c-4d52-92cf-757e54285c81",
+    "name": "Zetagen Therapeutics Content Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Zetagen Therapeutics runs no developer program and publishes no OpenAPI. This document is an API Evangelist derivation of the WordPress REST route index the site publishes at https://zetagen.com/wp-json/ (349 routes across 17 namespaces), narrowed to the operations that were verified to return data anonymously on 2026-08-05. Every write route and the entire plugin-administration surface is excluded — those require an authenticated WordPress user and were never exercised. The contract semantics (pagination, field selection, error envelope) are upstream WordPress REST behaviour, documented at https://developer.wordpress.org/rest-api/.\n\nContact Support:\n Name: Zetagen Therapeutics",
+      "type": "text/plain"
+    }
+  }
+}

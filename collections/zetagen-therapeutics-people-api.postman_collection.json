@@ -1,0 +1,154 @@
+{
+  "item": [
+    {
+      "id": "aeda824b-e9e7-4fdc-b8eb-11fb909cb5ec",
+      "name": "people",
+      "description": {
+        "content": "Author records. Personal data — see x-personal-data. Documented for completeness; deliberately excluded from every packaged Agent Skill in this repo.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "23ba55ac-26d8-4ccf-88ff-6ae7bb3d2db6",
+          "name": "List site authors",
+          "request": {
+            "name": "List site authors",
+            "description": {
+              "content": "Returned 200 anonymously with X-WP-Total 4 at harvest. This is the standard WordPress author collection; it exposes author display names, slugs, descriptions and avatar URLs (not email addresses) without credentials. Documented here for completeness of the contract only — no response data was captured, no example is provided, and this operation is deliberately excluded from every packaged Agent Skill in this repo. See review.yml.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "context",
+                  "value": "view",
+                  "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Current page of the collection, 1-based."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "10",
+                  "description": "Items per page. Values above 100 return 400 rest_invalid_param, not a clamp."
+                },
+                {
+                  "disabled": false,
+                  "key": "_fields",
+                  "value": "<string>",
+                  "description": "Comma-separated allow-list of top-level response fields."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ada621f6-808f-40d5-8a2f-f3cd4ffe240d",
+              "name": "A page of author records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "context",
+                      "value": "view"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    },
+                    {
+                      "key": "_fields",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Total number of matching items.",
+                  "key": "X-WP-Total",
+                  "value": "7018"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://zetagen.com/wp-json",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "475b887c-e938-4277-a6d0-d65c711f40e2",
+    "name": "Zetagen Therapeutics Content People API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Zetagen Therapeutics runs no developer program and publishes no OpenAPI. This document is an API Evangelist derivation of the WordPress REST route index the site publishes at https://zetagen.com/wp-json/ (349 routes across 17 namespaces), narrowed to the operations that were verified to return data anonymously on 2026-08-05. Every write route and the entire plugin-administration surface is excluded — those require an authenticated WordPress user and were never exercised. The contract semantics (pagination, field selection, error envelope) are upstream WordPress REST behaviour, documented at https://developer.wordpress.org/rest-api/.\n\nContact Support:\n Name: Zetagen Therapeutics",
+      "type": "text/plain"
+    }
+  }
+}

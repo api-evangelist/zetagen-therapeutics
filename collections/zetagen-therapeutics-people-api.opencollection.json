@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zetagen Therapeutics Content People API",
+    "version": "wp/v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "people",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List site authors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/users",
+            "params": [
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Current page of the collection, 1-based."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Items per page. Values above 100 return 400 rest_invalid_param, not a clamp."
+              },
+              {
+                "name": "_fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated allow-list of top-level response fields."
+              }
+            ]
+          },
+          "docs": "Returned 200 anonymously with X-WP-Total 4 at harvest. This is the standard WordPress author collection; it exposes author display names, slugs, descriptions and avatar URLs (not email addresses) without credentials. Documented here for completeness of the contract only — no response data was captured, no example is provided, and this operation is deliberately excluded from every packaged Agent Skill in this repo. See review.yml."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

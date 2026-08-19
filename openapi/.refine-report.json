@@ -1,0 +1,41 @@
+{
+  "provider": "zetagen-therapeutics",
+  "sources": [
+    "zetagen-therapeutics-content-api-openapi.yml",
+    "zetagen-therapeutics-discovery-api-openapi.yml",
+    "zetagen-therapeutics-downloads-api-openapi.yml",
+    "zetagen-therapeutics-embed-api-openapi.yml",
+    "zetagen-therapeutics-media-api-openapi.yml",
+    "zetagen-therapeutics-people-api-openapi.yml",
+    "zetagen-therapeutics-search-api-openapi.yml",
+    "zetagen-therapeutics-seo-api-openapi.yml",
+    "zetagen-therapeutics-taxonomy-api-openapi.yml"
+  ],
+  "outputs": [
+    "zetagen-therapeutics-content-api-openapi.yml",
+    "zetagen-therapeutics-discovery-api-openapi.yml",
+    "zetagen-therapeutics-downloads-api-openapi.yml",
+    "zetagen-therapeutics-embed-api-openapi.yml",
+    "zetagen-therapeutics-media-api-openapi.yml",
+    "zetagen-therapeutics-people-api-openapi.yml",
+    "zetagen-therapeutics-search-api-openapi.yml",
+    "zetagen-therapeutics-seo-api-openapi.yml",
+    "zetagen-therapeutics-taxonomy-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "zetagen-therapeutics-content-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "zetagen-therapeutics-discovery-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "zetagen-therapeutics-downloads-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "zetagen-therapeutics-embed-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "zetagen-therapeutics-media-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "zetagen-therapeutics-people-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "zetagen-therapeutics-search-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "zetagen-therapeutics-seo-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "zetagen-therapeutics-taxonomy-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}

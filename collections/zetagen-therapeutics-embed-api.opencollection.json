@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zetagen Therapeutics Content Embed API",
+    "version": "wp/v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "embed",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "oEmbed 1.0 provider endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/oembed/1.0/embed",
+            "params": [
+              {
+                "name": "url",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "maxwidth",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns an oEmbed 1.0 rich response for any URL on zetagen.com."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

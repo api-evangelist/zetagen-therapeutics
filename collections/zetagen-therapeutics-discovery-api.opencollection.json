@@ -1,0 +1,178 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Zetagen Therapeutics Content Discovery API",
+    "version": "wp/v2"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "discovery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the REST route index",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/",
+            "params": [
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              },
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "query",
+                "description": "Restrict the index to a single namespace."
+              }
+            ]
+          },
+          "docs": "Returns the site name, description, URLs, registered namespaces, the full route table and the authentication providers registered for discovery. This deployment reports application passwords as the only registered authentication provider, with its authorization endpoint at /wp-admin/authorize-application.php."
+        },
+        {
+          "info": {
+            "name": "List registered post types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/types",
+            "params": [
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              }
+            ]
+          },
+          "docs": "Eleven types are registered — post, page, attachment, nav_menu_item, wp_block, wp_template, wp_template_part, wp_global_styles, wp_navigation, wp_font_family, wp_font_face. No custom post type is registered on this deployment; press releases and publications are ordinary posts separated by category."
+        },
+        {
+          "info": {
+            "name": "Get a registered post type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/types/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              }
+            ]
+          },
+          "docs": "Get a registered post type"
+        },
+        {
+          "info": {
+            "name": "List registered taxonomies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/taxonomies",
+            "params": [
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Restrict to taxonomies attached to a post type."
+              }
+            ]
+          },
+          "docs": "Four taxonomies — category, post_tag, nav_menu, wp_pattern_category."
+        },
+        {
+          "info": {
+            "name": "Get a registered taxonomy",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/taxonomies/:taxonomy",
+            "params": [
+              {
+                "name": "taxonomy",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              }
+            ]
+          },
+          "docs": "Get a registered taxonomy"
+        },
+        {
+          "info": {
+            "name": "List post statuses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/statuses",
+            "params": [
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              }
+            ]
+          },
+          "docs": "Anonymously only the publicly queryable statuses are returned."
+        },
+        {
+          "info": {
+            "name": "Get a post status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://zetagen.com/wp-json/wp/v2/statuses/:status",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401."
+              }
+            ]
+          },
+          "docs": "Get a post status"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

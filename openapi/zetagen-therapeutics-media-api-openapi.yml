@@ -1,0 +1,347 @@
+openapi: 3.2.0
+info:
+  title: Zetagen Therapeutics Content Media API
+  version: wp/v2
+  summary: The anonymously readable WordPress REST content API behind zetagen.com.
+  description: Zetagen Therapeutics runs no developer program and publishes no OpenAPI. This document is an API Evangelist derivation of the WordPress REST route index the site publishes at https://zetagen.com/wp-json/ (349 routes across 17 namespaces), narrowed to the operations that were verified to return data anonymously on 2026-08-05. Every write route and the entire plugin-administration surface is excluded — those require an authenticated WordPress user and were never exercised. The contract semantics (pagination, field selection, error envelope) are upstream WordPress REST behaviour, documented at https://developer.wordpress.org/rest-api/.
+  contact:
+    name: Zetagen Therapeutics
+    url: https://zetagen.com/contact-us/
+  x-provenance:
+    method: derived
+    generated: '2026-08-05'
+    source: https://zetagen.com/wp-json/
+    verified_against: live anonymous GET responses on 2026-08-05
+    publisher: API Evangelist
+    note: Not published by Zetagen Therapeutics. Derived and independently verified; no operation here was invented and every one returned 200 anonymously at harvest.
+servers:
+- url: https://zetagen.com/wp-json
+  description: Production
+tags:
+- name: media
+  description: The 388-item media library.
+paths:
+  /wp/v2/media:
+    get:
+      operationId: listMedia
+      tags:
+      - media
+      summary: List media items
+      description: The 388-item media library. Each attachment carries source_url plus a media_details.sizes map of every generated derivative, so a client can select a rendition without a second call.
+      parameters:
+      - $ref: '#/components/parameters/Context'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PerPage'
+      - $ref: '#/components/parameters/Search'
+      - $ref: '#/components/parameters/Include'
+      - $ref: '#/components/parameters/Exclude'
+      - $ref: '#/components/parameters/Offset'
+      - $ref: '#/components/parameters/Order'
+      - name: media_type
+        in: query
+        schema:
+          type: string
+          enum:
+          - image
+          - video
+          - text
+          - application
+          - audio
+      - name: mime_type
+        in: query
+        schema:
+          type: string
+      - name: parent
+        in: query
+        schema:
+          type: array
+          items:
+            type: integer
+      - $ref: '#/components/parameters/Fields'
+      responses:
+        '200':
+          description: A page of attachments.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+            X-WP-TotalPages:
+              $ref: '#/components/headers/XWPTotalPages'
+            Link:
+              $ref: '#/components/headers/LinkPagination'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Attachment'
+        '400':
+          $ref: '#/components/responses/InvalidParam'
+  /wp/v2/media/{id}:
+    get:
+      operationId: getMediaItem
+      tags:
+      - media
+      summary: Get a media item by id
+      parameters:
+      - $ref: '#/components/parameters/PathId'
+      - $ref: '#/components/parameters/Context'
+      - $ref: '#/components/parameters/Fields'
+      responses:
+        '200':
+          description: An attachment.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+        '404':
+          $ref: '#/components/responses/PostNotFound'
+components:
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: Current page of the collection, 1-based.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PathId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    Fields:
+      name: _fields
+      in: query
+      description: Comma-separated allow-list of top-level response fields.
+      schema:
+        type: string
+    Context:
+      name: context
+      in: query
+      description: Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401.
+      schema:
+        type: string
+        enum:
+        - view
+        - embed
+        - edit
+        default: view
+    Order:
+      name: order
+      in: query
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    PerPage:
+      name: per_page
+      in: query
+      description: Items per page. Values above 100 return 400 rest_invalid_param, not a clamp.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+    Include:
+      name: include
+      in: query
+      schema:
+        type: array
+        items:
+          type: integer
+    Search:
+      name: search
+      in: query
+      schema:
+        type: string
+    Exclude:
+      name: exclude
+      in: query
+      schema:
+        type: array
+        items:
+          type: integer
+  responses:
+    InvalidParam:
+      description: A query parameter failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            perPageOutOfBounds:
+              summary: per_page above the 100 maximum
+              value:
+                code: rest_invalid_param
+                message: 'Invalid parameter(s): per_page'
+                data:
+                  status: 400
+                  params:
+                    per_page: per_page must be between 1 (inclusive) and 100 (inclusive)
+    PostNotFound:
+      description: No object with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            invalidPostId:
+              value:
+                code: rest_post_invalid_id
+                message: Invalid post ID.
+                data:
+                  status: 404
+  schemas:
+    RenderedText:
+      type: object
+      properties:
+        rendered:
+          type: string
+        protected:
+          type: boolean
+    Attachment:
+      type: object
+      description: A media library item.
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        guid:
+          $ref: '#/components/schemas/RenderedText'
+        slug:
+          type: string
+        status:
+          type: string
+          const: inherit
+        type:
+          type: string
+          const: attachment
+        link:
+          type: string
+          format: uri
+        title:
+          $ref: '#/components/schemas/RenderedText'
+        author:
+          type: integer
+        description:
+          $ref: '#/components/schemas/RenderedText'
+        caption:
+          $ref: '#/components/schemas/RenderedText'
+        alt_text:
+          type: string
+        media_type:
+          type: string
+          enum:
+          - image
+          - file
+        mime_type:
+          type: string
+        source_url:
+          type: string
+          format: uri
+        post:
+          type:
+          - integer
+          - 'null'
+          description: Id of the object this attachment is attached to.
+        media_details:
+          $ref: '#/components/schemas/MediaDetails'
+        meta:
+          type: object
+        class_list:
+          type: array
+          items:
+            type: string
+        _links:
+          $ref: '#/components/schemas/Links'
+    Links:
+      type: object
+      description: HAL-style link relations — self, collection, about, author, replies, wp:term, wp:featuredmedia, wp:attachment, curies.
+      additionalProperties: true
+    MediaDetails:
+      type: object
+      properties:
+        width:
+          type: integer
+        height:
+          type: integer
+        file:
+          type: string
+        filesize:
+          type: integer
+        image_meta:
+          type: object
+        sizes:
+          type: object
+          description: Generated renditions keyed by size name. Observed on this deployment - medium, thumbnail, cmplz_banner_image (a Complianz cookie-banner rendition) and full.
+          additionalProperties:
+            type: object
+            properties:
+              file:
+                type: string
+              width:
+                type: integer
+              height:
+                type: integer
+              filesize:
+                type: integer
+              mime_type:
+                type: string
+              source_url:
+                type: string
+                format: uri
+    Error:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 — no type URI and no application/problem+json media type.
+      required:
+      - code
+      - message
+      - data
+      properties:
+        code:
+          type: string
+          description: Machine-readable error slug.
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+            params:
+              type: object
+              additionalProperties:
+                type: string
+            details:
+              type: object
+  headers:
+    XWPTotalPages:
+      description: Total number of pages available.
+      schema:
+        type: integer
+    XWPTotal:
+      description: Total number of matching items.
+      schema:
+        type: integer
+    LinkPagination:
+      description: RFC 8288 Link header carrying rel="next" and rel="prev".
+      schema:
+        type: string
+externalDocs:
+  description: WordPress REST API Handbook — the upstream contract this deployment implements
+  url: https://developer.wordpress.org/rest-api/

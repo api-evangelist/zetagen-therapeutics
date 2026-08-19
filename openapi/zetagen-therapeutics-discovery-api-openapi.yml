@@ -1,0 +1,308 @@
+openapi: 3.2.0
+info:
+  title: Zetagen Therapeutics Content Discovery API
+  version: wp/v2
+  summary: The anonymously readable WordPress REST content API behind zetagen.com.
+  description: Zetagen Therapeutics runs no developer program and publishes no OpenAPI. This document is an API Evangelist derivation of the WordPress REST route index the site publishes at https://zetagen.com/wp-json/ (349 routes across 17 namespaces), narrowed to the operations that were verified to return data anonymously on 2026-08-05. Every write route and the entire plugin-administration surface is excluded — those require an authenticated WordPress user and were never exercised. The contract semantics (pagination, field selection, error envelope) are upstream WordPress REST behaviour, documented at https://developer.wordpress.org/rest-api/.
+  contact:
+    name: Zetagen Therapeutics
+    url: https://zetagen.com/contact-us/
+  x-provenance:
+    method: derived
+    generated: '2026-08-05'
+    source: https://zetagen.com/wp-json/
+    verified_against: live anonymous GET responses on 2026-08-05
+    publisher: API Evangelist
+    note: Not published by Zetagen Therapeutics. Derived and independently verified; no operation here was invented and every one returned 200 anonymously at harvest.
+servers:
+- url: https://zetagen.com/wp-json
+  description: Production
+tags:
+- name: discovery
+  description: Route index, registered types, taxonomies and statuses.
+paths:
+  /:
+    get:
+      operationId: getRouteIndex
+      tags:
+      - discovery
+      summary: Get the REST route index
+      description: Returns the site name, description, URLs, registered namespaces, the full route table and the authentication providers registered for discovery. This deployment reports application passwords as the only registered authentication provider, with its authorization endpoint at /wp-admin/authorize-application.php.
+      parameters:
+      - $ref: '#/components/parameters/Context'
+      - name: namespace
+        in: query
+        description: Restrict the index to a single namespace.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The route index.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteIndex'
+  /wp/v2/types:
+    get:
+      operationId: listTypes
+      tags:
+      - discovery
+      summary: List registered post types
+      description: Eleven types are registered — post, page, attachment, nav_menu_item, wp_block, wp_template, wp_template_part, wp_global_styles, wp_navigation, wp_font_family, wp_font_face. No custom post type is registered on this deployment; press releases and publications are ordinary posts separated by category.
+      parameters:
+      - $ref: '#/components/parameters/Context'
+      responses:
+        '200':
+          description: A map of post type objects keyed by type name.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/PostType'
+  /wp/v2/types/{type}:
+    get:
+      operationId: getType
+      tags:
+      - discovery
+      summary: Get a registered post type
+      parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Context'
+      responses:
+        '200':
+          description: A post type object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostType'
+        '404':
+          $ref: '#/components/responses/NoRoute'
+  /wp/v2/taxonomies:
+    get:
+      operationId: listTaxonomies
+      tags:
+      - discovery
+      summary: List registered taxonomies
+      description: Four taxonomies — category, post_tag, nav_menu, wp_pattern_category.
+      parameters:
+      - $ref: '#/components/parameters/Context'
+      - name: type
+        in: query
+        description: Restrict to taxonomies attached to a post type.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A map of taxonomy objects keyed by taxonomy name.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Taxonomy'
+  /wp/v2/taxonomies/{taxonomy}:
+    get:
+      operationId: getTaxonomy
+      tags:
+      - discovery
+      summary: Get a registered taxonomy
+      parameters:
+      - name: taxonomy
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Context'
+      responses:
+        '200':
+          description: A taxonomy object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Taxonomy'
+        '404':
+          $ref: '#/components/responses/NoRoute'
+  /wp/v2/statuses:
+    get:
+      operationId: listStatuses
+      tags:
+      - discovery
+      summary: List post statuses
+      description: Anonymously only the publicly queryable statuses are returned.
+      parameters:
+      - $ref: '#/components/parameters/Context'
+      responses:
+        '200':
+          description: A map of status objects keyed by status name.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /wp/v2/statuses/{status}:
+    get:
+      operationId: getStatus
+      tags:
+      - discovery
+      summary: Get a post status
+      parameters:
+      - name: status
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/Context'
+      responses:
+        '200':
+          description: A status object.
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          $ref: '#/components/responses/NoRoute'
+components:
+  responses:
+    NoRoute:
+      description: No route matched the URL and method.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            noRoute:
+              value:
+                code: rest_no_route
+                message: No route was found matching the URL and request method.
+                data:
+                  status: 404
+  schemas:
+    Links:
+      type: object
+      description: HAL-style link relations — self, collection, about, author, replies, wp:term, wp:featuredmedia, wp:attachment, curies.
+      additionalProperties: true
+    RouteIndex:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+          format: uri
+        home:
+          type: string
+          format: uri
+        gmt_offset:
+          type:
+          - number
+          - string
+        timezone_string:
+          type: string
+        namespaces:
+          type: array
+          items:
+            type: string
+        authentication:
+          type: object
+          description: Registered authentication providers. This deployment reports application-passwords with an authorization endpoint at /wp-admin/authorize-application.php. No OAuth, no JWT.
+        routes:
+          type: object
+          additionalProperties: true
+        site_icon_url:
+          type: string
+          format: uri
+        _links:
+          $ref: '#/components/schemas/Links'
+    Taxonomy:
+      type: object
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        hierarchical:
+          type: boolean
+        rest_base:
+          type: string
+        rest_namespace:
+          type: string
+        types:
+          type: array
+          items:
+            type: string
+        _links:
+          $ref: '#/components/schemas/Links'
+    PostType:
+      type: object
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        hierarchical:
+          type: boolean
+        rest_base:
+          type: string
+        rest_namespace:
+          type: string
+        taxonomies:
+          type: array
+          items:
+            type: string
+        icon:
+          type:
+          - string
+          - 'null'
+        _links:
+          $ref: '#/components/schemas/Links'
+    Error:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 — no type URI and no application/problem+json media type.
+      required:
+      - code
+      - message
+      - data
+      properties:
+        code:
+          type: string
+          description: Machine-readable error slug.
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+            params:
+              type: object
+              additionalProperties:
+                type: string
+            details:
+              type: object
+  parameters:
+    Context:
+      name: context
+      in: query
+      description: Response shape. Anonymously only `view` and `embed` return data; `edit` requires an authenticated user and returns 401.
+      schema:
+        type: string
+        enum:
+        - view
+        - embed
+        - edit
+        default: view
+externalDocs:
+  description: WordPress REST API Handbook — the upstream contract this deployment implements
+  url: https://developer.wordpress.org/rest-api/

@@ -1,0 +1,160 @@
+{
+  "item": [
+    {
+      "id": "bf6f2436-99fe-4d54-ac03-9eb4faf32710",
+      "name": "seo",
+      "description": {
+        "content": "Yoast SEO head metadata.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c3ef7340-6b42-4b9d-9135-f8be4f165f28",
+          "name": "Get rendered SEO head metadata for a URL",
+          "request": {
+            "name": "Get rendered SEO head metadata for a URL",
+            "description": {
+              "content": "Yoast SEO exposes the rendered <head> block and its structured schema.org graph for any public URL on the site. Anonymously readable at harvest. The same payload is inlined on every post and page as yoast_head / yoast_head_json.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "yoast",
+                "v1",
+                "get_head"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "url",
+                  "value": "<uri>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8644e1dc-31c5-468b-88d4-2ab77dbb7b58",
+              "name": "Rendered head metadata plus a schema.org graph.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "yoast",
+                    "v1",
+                    "get_head"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "url",
+                      "value": "<uri>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"html\": \"string\",\n  \"json\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49e6e456-fc4a-4bae-8d9c-0b6aaa219ebc",
+              "name": "No route matched the URL and method.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "yoast",
+                    "v1",
+                    "get_head"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "url",
+                      "value": "<uri>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"rest_no_route\",\n  \"message\": \"No route was found matching the URL and request method.\",\n  \"data\": {\n    \"status\": 404\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://zetagen.com/wp-json",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c167da7e-6f84-4129-8658-dd35e4e23889",
+    "name": "Zetagen Therapeutics Content Seo API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Zetagen Therapeutics runs no developer program and publishes no OpenAPI. This document is an API Evangelist derivation of the WordPress REST route index the site publishes at https://zetagen.com/wp-json/ (349 routes across 17 namespaces), narrowed to the operations that were verified to return data anonymously on 2026-08-05. Every write route and the entire plugin-administration surface is excluded — those require an authenticated WordPress user and were never exercised. The contract semantics (pagination, field selection, error envelope) are upstream WordPress REST behaviour, documented at https://developer.wordpress.org/rest-api/.\n\nContact Support:\n Name: Zetagen Therapeutics",
+      "type": "text/plain"
+    }
+  }
+}
