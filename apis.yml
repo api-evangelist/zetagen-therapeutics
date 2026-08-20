@@ -30,6 +30,17 @@ modified: '2026-08-05'
 tags:
 - Company
 - biopharmaceuticals
+- Oncology
+- Bone Health
+- Orthopedics
+- Clinical Trials
+- Life Sciences
+- Drug Development
+- Medical Devices
+- content-api
+tags_raw:
+- Company
+- biopharmaceuticals
 - oncology
 - bone-health
 - orthopedics
@@ -45,6 +56,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
+  - Content
+  tags_raw:
   - content
   properties:
   - type: OpenAPI
@@ -63,6 +76,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
+  - Discovery
+  tags_raw:
   - discovery
   properties:
   - type: OpenAPI
@@ -81,6 +96,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
+  - Downloads
+  tags_raw:
   - downloads
   properties:
   - type: OpenAPI
@@ -99,6 +116,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
+  - Embed
+  tags_raw:
   - embed
   properties:
   - type: OpenAPI
@@ -117,6 +136,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
+  - Media
+  tags_raw:
   - media
   properties:
   - type: OpenAPI
@@ -137,6 +158,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
+  - People
+  tags_raw:
   - people
   properties:
   - type: OpenAPI
@@ -155,6 +178,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
+  - Search
+  tags_raw:
   - search
   properties:
   - type: OpenAPI
@@ -173,6 +198,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
+  - SEO
+  tags_raw:
   - seo
   properties:
   - type: OpenAPI
@@ -191,6 +218,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
+  - Taxonomy
+  tags_raw:
   - taxonomy
   properties:
   - type: OpenAPI
