@@ -18,6 +18,17 @@ description: >-
   Zetagen Therapeutics runs no developer program and publishes no product API, developer portal or
   API documentation. The only machine-readable surface reachable without credentials is the
   WordPress REST content API behind zetagen.com, catalogued here.
+deliveryModel:
+  model: unknown
+  open_source: false
+  commercial: false
+  callable_host: true
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  generated: '2026-08-28'
+  method: derived
 image: https://zetagen.com/wp-content/uploads/2021/08/zetagen-logo.png
 url: https://raw.githubusercontent.com/api-evangelist/zetagen-therapeutics/refs/heads/main/apis.yml
 x-type: company
