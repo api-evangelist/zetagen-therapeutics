@@ -41,13 +41,13 @@ modified: '2026-08-05'
 tags:
 - Company
 - biopharmaceuticals
-- oncology
-- bone-health
-- orthopedics
-- clinical-trials
-- life-sciences
-- drug-development
-- medical-devices
+- Oncology
+- Bone Health
+- Orthopedics
+- Clinical Trials
+- Life Sciences
+- Drug Development
+- Medical Devices
 - content-api
 tags_raw:
 - Company
@@ -67,7 +67,7 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
-  - content
+  - Content
   tags_raw:
   - content
   properties:
@@ -107,7 +107,7 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://zetagen.com/wp-json
   tags:
-  - downloads
+  - Downloads
   tags_raw:
   - downloads
   properties:
