@@ -1,31 +1,29 @@
-# Kin Score artifact — zetagen-therapeutics — 2026-08-20T191845
+# Kin Score artifact — zetagen-therapeutics — 2026-09-21T211425
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: zetagen-therapeutics
-  schema_version: 0.12.0
-  scored_at: '2026-08-20'
-  run_ts: 2026-08-20T191845
-  composite: 24.3
+  schema_version: 0.22.0
+  scored_at: '2026-09-21'
+  run_ts: 2026-09-21T211425
+  composite: 22.2
   band: emerging
   facets:
-    discoverability: 81.5
-    contract_quality: 12.9
-    governance: 16.7
+    discoverability: 75.9
+    contract_quality: 12.5
+    contract_governance: 4.5
     operational_transparency: 0.0
     developer_ergonomics: 13.7
-    commercial_clarity: 28.6
-    contract_governance: 16.7
     access_clarity: 28.6
   agent_readiness:
-    score: 33.9
+    score: 22.3
     band: agent-aware
     dimensions:
       spec_presence: true
       agentic_access: false
       reversibility_documented: na
       mcp_server: false
-      auth_clarity: true
+      auth_clarity: bearer
       idempotency: na
       error_semantics: documented
       openapi_examples: false
@@ -36,6 +34,10 @@ kin_score:
       consent_identity: false
       agent_card: false
       dry_run_mode: na
+      delegated_identity: false
+      protected_resource_metadata: false
+      dynamic_client_registration: false
+      agentic_commerce: false
   regulatory:
     applies: true
     regime: Health
