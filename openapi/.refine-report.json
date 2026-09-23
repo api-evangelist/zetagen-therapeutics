@@ -1,15 +1,7 @@
 {
   "provider": "zetagen-therapeutics",
   "sources": [
-    "zetagen-therapeutics-content-api-openapi.yml",
-    "zetagen-therapeutics-discovery-api-openapi.yml",
-    "zetagen-therapeutics-downloads-api-openapi.yml",
-    "zetagen-therapeutics-embed-api-openapi.yml",
-    "zetagen-therapeutics-media-api-openapi.yml",
-    "zetagen-therapeutics-people-api-openapi.yml",
-    "zetagen-therapeutics-search-api-openapi.yml",
-    "zetagen-therapeutics-seo-api-openapi.yml",
-    "zetagen-therapeutics-taxonomy-api-openapi.yml"
+    "_original/zetagen-therapeutics-content-openapi.yml"
   ],
   "outputs": [
     "zetagen-therapeutics-content-api-openapi.yml",
@@ -26,16 +18,19 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "zetagen-therapeutics-content-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "zetagen-therapeutics-discovery-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "zetagen-therapeutics-downloads-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "zetagen-therapeutics-embed-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "zetagen-therapeutics-media-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "zetagen-therapeutics-people-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "zetagen-therapeutics-search-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "zetagen-therapeutics-seo-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "zetagen-therapeutics-taxonomy-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "zetagen-therapeutics-content-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "zetagen-therapeutics-content-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "zetagen-therapeutics-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "zetagen-therapeutics-downloads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "zetagen-therapeutics-embed-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "zetagen-therapeutics-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "zetagen-therapeutics-people-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "zetagen-therapeutics-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "zetagen-therapeutics-seo-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "zetagen-therapeutics-taxonomy-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
