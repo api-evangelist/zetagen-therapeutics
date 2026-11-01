@@ -64,5 +64,105 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Zetagen Therapeutics is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/zetagen-therapeutics_stock/
+Zetagen Therapeutics is a private, clinical-stage biopharmaceutical company founded in 2015 and based in Syracuse, New York, where it has operated from laboratory space in the Central New York Biotech Accelerator at SUNY Upstate Medical University since 2017. It develops locally administered small-molecule therapies for metastatic and primary cancers to bone and other organs, built on a proprietary "Zeta" platform derived from the company's discovery of a new molecular pathway acting through the Met5-enkephalin / opioid growth factor receptor signalling axis. Its oncology pipeline includes ZetaMet (Zeta-BC-003) for metastatic breast cancer to bone, which received FDA Breakthrough Device Designation in December 2021 and Health Canada authorisation for a Phase 2a study in January 2022 and reported Phase 2a results at ASCO in June 2026; ZetaMet-P (Zeta-PC-004) for prostate cancer; ZetaMAST (Zeta-MBC-005) for metastatic breast cancer in liver; Zeta-BC-007; and ZetaOnc. Its osteologic programme is ZetaFuse, a synthetic osteoinductive bone graft studied in anterior cervical discectomy and fusion. The company reached 64 worldwide patents in 2024, has been funded by NCI and NIAMS grants, a $5.34M Series A, a $9.79M Series B and an oversubscribed Series B1 closed in November 2025, and its shares trade on secondary markets. Zetagen Therapeutics runs no developer program and publishes no product API, developer portal or API documentation. The only machine-readable surface reachable without credentials is the WordPress REST content API behind zetagen.com, catalogued here.
+
+**Areas:** Company · Biopharmaceutical · Oncology · Bone Health · Orthopedics · Clinical Trials · Life Sciences · Drug Development · Medical Devices · content-api
+
+## Zetagen Therapeutics on APIs.io
+
+Everything profiled for Zetagen Therapeutics is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/zetagen-therapeutics/](https://apis.io/providers/zetagen-therapeutics/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Zetagen Therapeutics Website (WordPress REST)](https://apis.io/apis/zetagen-therapeutics/zetagen-com-website-wordpress-rest/) — The public WordPress REST API (wp-json) of the Zetagen Therapeutics website at zetagen.com: the route index of the site's content management system,…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Collections (9)
+
+Postman and Open Collection request collections.
+
+- [Moved to /providers/zetagen-therapeutics/](https://apis.io/collections/zetagen-therapeutics/open-zetagen-therapeutics-content-api/)
+- [Moved to /providers/zetagen-therapeutics/](https://apis.io/collections/zetagen-therapeutics/open-zetagen-therapeutics-discovery-api/)
+- [Moved to /providers/zetagen-therapeutics/](https://apis.io/collections/zetagen-therapeutics/open-zetagen-therapeutics-downloads-api/)
+- [Moved to /providers/zetagen-therapeutics/](https://apis.io/collections/zetagen-therapeutics/open-zetagen-therapeutics-embed-api/)
+- [Moved to /providers/zetagen-therapeutics/](https://apis.io/collections/zetagen-therapeutics/open-zetagen-therapeutics-media-api/)
+- [Moved to /providers/zetagen-therapeutics/](https://apis.io/collections/zetagen-therapeutics/open-zetagen-therapeutics-people-api/)
+- [Moved to /providers/zetagen-therapeutics/](https://apis.io/collections/zetagen-therapeutics/open-zetagen-therapeutics-search-api/)
+- [Moved to /providers/zetagen-therapeutics/](https://apis.io/collections/zetagen-therapeutics/open-zetagen-therapeutics-seo-api/)
+- [Moved to /providers/zetagen-therapeutics/](https://apis.io/collections/zetagen-therapeutics/open-zetagen-therapeutics-taxonomy-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Zetagen Therapeutics Content Overlay](https://apis.io/overlays/zetagen-therapeutics/zetagen-therapeutics-content-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Zetagen Therapeutics Authentication](https://apis.io/security/zetagen-therapeutics/zetagen-therapeutics-authentication/)
+- [Zetagen Therapeutics Domain Security](https://apis.io/security/zetagen-therapeutics/zetagen-therapeutics-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://zetagen.com/)
+- [Privacy policy](https://zetagen.com/privacy-statement-us/)
+
+## API Evangelist rating
+
+**Kin Score 15.3** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 65.2 |
+| Contract quality | 0.0 |
+| Contract governance | 4.5 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 23.2 |
+| Access clarity | 10.5 |
+
+**Agent readiness 4.1** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 21.9** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/zetagen-therapeutics/](https://apis.io/providers/zetagen-therapeutics/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Zetagen Therapeutics: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/zetagen-therapeutics/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
